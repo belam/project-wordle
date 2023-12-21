@@ -1,29 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
+import { range } from "../../utils";
 
-function Guess({ submitGuess }) {
-  
-  const [guess, setGuess] = useState("");
-
-  function submitHandler(event) {
-    event.preventDefault();
-
-    submitGuess(guess);
-    setGuess("");
-  }
+function Guess({ word }) {
 
   return (
-    <form onSubmit={submitHandler} className="guess-input-wrapper">
-      <label htmlFor="guess-input">Enter Guess:</label>
-      <input
-        id="guess-input"
-        type="text"
-        maxLength="5"
-        pattern="[A-Z]{5}"
-        title="Your guess must be 5 letters"
-        value={guess}
-        onChange={(event) => setGuess(event.target.value.toUpperCase())}
-      />
-    </form>
+    <p className="guess">
+      {range(5).map((num) => {
+        const letter = word && word[num].letter;
+        const status = word && word[num].status;
+        return <span key={num} className={`cell ${status || ""}`}>
+          {letter}
+        </span>;
+      })}
+    </p>
   );
 }
 
