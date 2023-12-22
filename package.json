@@ -20,8 +20,8 @@
     "dev": "parcel public/index.html",
     "build": "parcel build public/index.html",
     "new-component": "new-component",
-    "predeploy": "parcel build public/index.html",
-    "deploy": "gh-pages -d build"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "devDependencies": {
