@@ -15,12 +15,8 @@ const status = {
   LOST: "lost",
 };
 
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
-
 function Game() {
+  const [answer, setAnswer] = useState(sample(WORDS));
   const [history, setHistory] = useState([]);
   const [gameStatus, setGameStatus] = useState(status.RUNNING);
 
@@ -29,11 +25,19 @@ function Game() {
     const nextHistory = [...history, evaluatedGuess];
     setHistory(nextHistory);
 
-    if (evaluatedGuess.every((word) => word.status === "correct")) {
+    if (guess === answer) {
       setGameStatus(status.WON);
     } else if (nextHistory.length >= NUM_OF_GUESSES_ALLOWED) {
       setGameStatus(status.LOST);
     }
+  }
+
+  function handleReset() {
+    const nextAnswer = sample(WORDS);
+    // console.log(nextAnswer);
+    setAnswer(nextAnswer);
+    setHistory([]);
+    setGameStatus(status.RUNNING);
   }
 
   return (
@@ -47,6 +51,7 @@ function Game() {
           answer={answer}
           attempts={history.length}
           winner={gameStatus === status.WON}
+          handleReset={handleReset}
         />
       )}
     </>

@@ -1,29 +1,31 @@
 import React from "react";
-import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 
 function Loser({ answer }) {
   return (
-    <div className="sad banner">
-      <p>
-        Sorry, the correct answer is <strong>{answer}</strong>.
-      </p>
-    </div>
+    <p>
+      Sorry, the correct answer is <strong>{answer}</strong>.
+    </p>
   );
 }
 
 function Winner({ attempts }) {
   return (
-    <div className="happy banner">
-      <p>
-        <strong>Congratulations!</strong> Got it in
-        <strong>{` ${attempts} ${attempts > 1 ? "guesses" : "guess"}`}</strong>.
-      </p>
-    </div>
+    <p>
+      <strong>Congratulations!</strong> Got it in
+      <strong>{` ${attempts} ${attempts > 1 ? "guesses" : "guess"}`}</strong>.
+    </p>
   );
 }
 
-function GameOver({ answer, attempts, winner }) {
-  return winner ? <Winner attempts={attempts} /> : <Loser answer={answer} />;
+function GameOver({ answer, attempts, winner, handleReset }) {
+  return (
+    <div className={`${winner ? "happy" : "sad"} banner`}>
+      {winner ? <Winner attempts={attempts} /> : <Loser answer={answer} />}
+      <p>
+        <button onClick={handleReset}>(reset)</button>
+      </p>
+    </div>
+  );
 }
 
 export default GameOver;
