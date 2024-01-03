@@ -27231,7 +27231,7 @@ var _guessInput = require("../GuessInput");
 var _guessInputDefault = parcelHelpers.interopDefault(_guessInput);
 var _guessHistory = require("../GuessHistory");
 var _guessHistoryDefault = parcelHelpers.interopDefault(_guessHistory);
-var _gameOver = require("../GameOver/GameOver");
+var _gameOver = require("../GameOver");
 var _gameOverDefault = parcelHelpers.interopDefault(_gameOver);
 var _utils = require("../../utils");
 var _data = require("../../data");
@@ -27260,7 +27260,6 @@ function Game() {
     }
     function handleReset() {
         const nextAnswer = (0, _utils.sample)((0, _data.WORDS));
-        // console.log(nextAnswer);
         setAnswer(nextAnswer);
         setHistory([]);
         setGameStatus(status.RUNNING);
@@ -27275,6 +27274,7 @@ function Game() {
                 columnNumber: 7
             }, this),
             gameStatus === status.RUNNING && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _guessInputDefault.default), {
+                history: history,
                 submitGuess: submitGuess
             }, void 0, false, {
                 fileName: "src/components/Game/Game.js",
@@ -27305,7 +27305,7 @@ $RefreshReg$(_c, "Game");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../GuessInput":"7KsIF","../GuessHistory":"6XwrY","../GameOver/GameOver":"gW929","../../utils":"en4he","../../data":"9kapS","../../game-helpers":"dWwK5","../../constants":"3huJa","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"7KsIF":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../GuessInput":"7KsIF","../GuessHistory":"6XwrY","../GameOver":"l25c8","../../utils":"en4he","../../data":"9kapS","../../game-helpers":"dWwK5","../../constants":"3huJa","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"7KsIF":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>(0, _guessInputDefault.default));
@@ -27325,54 +27325,195 @@ parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+var _keyboard = require("../Keyboard");
+var _keyboardDefault = parcelHelpers.interopDefault(_keyboard);
 var _s = $RefreshSig$();
-function GuessInput({ submitGuess  }) {
+//TODO: constants file?
+const maxLength = 5;
+function GuessInput({ submitGuess , history  }) {
     _s();
     const [guess, setGuess] = (0, _react.useState)("");
+    const ref = (0, _react.useRef)();
     function submitHandler(event) {
         event.preventDefault();
         submitGuess(guess);
         setGuess("");
     }
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
-        onSubmit: submitHandler,
-        className: "guess-input-wrapper",
+    function handleVirtualKeyClick(character) {
+        if (guess.length < maxLength) {
+            const nextGuess = guess + character;
+            setGuess(nextGuess);
+        }
+        // Set focus on the input for return/delete ease of access
+        console.log(ref.current.focus());
+    }
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
-                htmlFor: "guess-input",
-                children: "Enter Guess:"
-            }, void 0, false, {
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
+                onSubmit: submitHandler,
+                className: "guess-input-wrapper",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("label", {
+                        htmlFor: "guess-input",
+                        children: "Enter Guess:"
+                    }, void 0, false, {
+                        fileName: "src/components/GuessInput/GuessInput.js",
+                        lineNumber: 31,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        id: "guess-input",
+                        ref: ref,
+                        type: "text",
+                        maxLength: maxLength,
+                        pattern: `[A-Z]{${5}}`,
+                        title: "Your guess must be 5 letters",
+                        value: guess,
+                        onChange: (event)=>setGuess(event.target.value.toUpperCase())
+                    }, void 0, false, {
+                        fileName: "src/components/GuessInput/GuessInput.js",
+                        lineNumber: 32,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "src/components/GuessInput/GuessInput.js",
-                lineNumber: 16,
+                lineNumber: 30,
                 columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                id: "guess-input",
-                type: "text",
-                maxLength: "5",
-                pattern: "[A-Z]{5}",
-                title: "Your guess must be 5 letters",
-                value: guess,
-                onChange: (event)=>setGuess(event.target.value.toUpperCase())
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _keyboardDefault.default), {
+                history: history,
+                handleVirtualKeyClick: handleVirtualKeyClick
             }, void 0, false, {
                 fileName: "src/components/GuessInput/GuessInput.js",
-                lineNumber: 17,
+                lineNumber: 43,
                 columnNumber: 7
             }, this)
         ]
-    }, void 0, true, {
-        fileName: "src/components/GuessInput/GuessInput.js",
-        lineNumber: 15,
-        columnNumber: 5
-    }, this);
+    }, void 0, true);
 }
-_s(GuessInput, "+yYR1kvazTqE9ExEudfqDe1IMJ8=");
+_s(GuessInput, "/cjH9Fjz1fuye1nmi+kkUfYsuVo=");
 _c = GuessInput;
 exports.default = GuessInput;
 var _c;
 $RefreshReg$(_c, "GuessInput");
 
   $parcel$ReactRefreshHelpers$b46b.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../Keyboard":"3XTQP","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"3XTQP":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>(0, _keyboardDefault.default));
+var _keyboard = require("./Keyboard");
+parcelHelpers.exportAll(_keyboard, exports);
+var _keyboardDefault = parcelHelpers.interopDefault(_keyboard);
+
+},{"./Keyboard":"cbXLQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cbXLQ":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$5e71 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$5e71.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _key = require("../Key");
+var _keyDefault = parcelHelpers.interopDefault(_key);
+function Keyboard({ handleVirtualKeyClick , history  }) {
+    const firstRow = "QWERTYUIOP".split("");
+    const secondRow = "ASDFGHJKL".split("");
+    const thirdRow = "ZXCVBNM".split("");
+    const rows = [
+        firstRow,
+        secondRow,
+        thirdRow
+    ];
+    function keyCheck(character) {
+        /*
+      I'm not pleased with this key status checker.  I may refactor after seeing Josh's 
+      solution, but this janky solution will be in history for posterity's sake
+    */ const keys = history.flat().filter((k)=>k.letter === character);
+        if (keys.some((k)=>k.status === "correct")) return "correct";
+        if (keys.some((k)=>k.status === "misplaced")) return "misplaced";
+        if (keys.some((k)=>k.status === "incorrect")) return "incorrect";
+        return "unknown";
+    }
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        children: rows.map((row, index)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "key-row",
+                children: row.map((character)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _keyDefault.default), {
+                        status: keyCheck(character),
+                        handleVirtualKeyClick: handleVirtualKeyClick,
+                        children: character
+                    }, character, false, {
+                        fileName: "src/components/Keyboard/Keyboard.js",
+                        lineNumber: 38,
+                        columnNumber: 13
+                    }, this))
+            }, index, false, {
+                fileName: "src/components/Keyboard/Keyboard.js",
+                lineNumber: 36,
+                columnNumber: 9
+            }, this))
+    }, void 0, false, {
+        fileName: "src/components/Keyboard/Keyboard.js",
+        lineNumber: 34,
+        columnNumber: 5
+    }, this);
+}
+_c = Keyboard;
+exports.default = Keyboard;
+var _c;
+$RefreshReg$(_c, "Keyboard");
+
+  $parcel$ReactRefreshHelpers$5e71.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../Key":"cm4VA","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"cm4VA":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>(0, _keyDefault.default));
+var _key = require("./Key");
+parcelHelpers.exportAll(_key, exports);
+var _keyDefault = parcelHelpers.interopDefault(_key);
+
+},{"./Key":"kPn0a","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kPn0a":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$f9bd = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$f9bd.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+function Key({ status , handleVirtualKeyClick , children  }) {
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+        className: `key ${status}`,
+        onClick: ()=>handleVirtualKeyClick(children),
+        children: children
+    }, void 0, false, {
+        fileName: "src/components/Key/Key.js",
+        lineNumber: 5,
+        columnNumber: 5
+    }, this);
+}
+_c = Key;
+exports.default = Key;
+var _c;
+$RefreshReg$(_c, "Key");
+
+  $parcel$ReactRefreshHelpers$f9bd.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
@@ -27565,7 +27706,7 @@ parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
-var _guess = require("../Guess/Guess");
+var _guess = require("../Guess");
 var _guessDefault = parcelHelpers.interopDefault(_guess);
 var _utils = require("../../utils");
 var _constants = require("../../constants");
@@ -27595,7 +27736,15 @@ $RefreshReg$(_c, "GuessHistory");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../Guess/Guess":"u6UxK","../../utils":"en4he","../../constants":"3huJa","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"u6UxK":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../Guess":"lokSL","../../utils":"en4he","../../constants":"3huJa","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"lokSL":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>(0, _guessDefault.default));
+var _guess = require("./Guess");
+parcelHelpers.exportAll(_guess, exports);
+var _guessDefault = parcelHelpers.interopDefault(_guess);
+
+},{"./Guess":"u6UxK","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"u6UxK":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$424d = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27663,7 +27812,15 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "NUM_OF_GUESSES_ALLOWED", ()=>NUM_OF_GUESSES_ALLOWED);
 const NUM_OF_GUESSES_ALLOWED = 6;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gW929":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l25c8":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>(0, _gameOverDefault.default));
+var _gameOver = require("./GameOver");
+parcelHelpers.exportAll(_gameOver, exports);
+var _gameOverDefault = parcelHelpers.interopDefault(_gameOver);
+
+},{"./GameOver":"gW929","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gW929":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$834b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27742,7 +27899,7 @@ function GameOver({ answer , attempts , winner , handleReset  }) {
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                 children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                     onClick: handleReset,
-                    children: "(reset)"
+                    children: "(Restart Game)"
                 }, void 0, false, {
                     fileName: "src/components/GameOver/GameOver.js",
                     lineNumber: 25,

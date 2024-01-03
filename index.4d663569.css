@@ -115,22 +115,28 @@ h1 {
   --radius: 0px 0px 0px 4px;
 }
 
-.cell.correct {
+.cell.correct, .key.correct {
   background: var(--color-success);
   border-color: var(--color-success);
   color: #fff;
 }
 
-.cell.incorrect {
+.cell.incorrect, .key.incorrect {
   background: var(--color-gray-300);
   border-color: var(--color-gray-300);
   color: #fff;
 }
 
-.cell.misplaced {
+.cell.misplaced, .key.misplaced {
   background: var(--color-warning);
   border-color: var(--color-warning);
   color: #fff;
+}
+
+.key.unknown {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-700);
+  color: #000;
 }
 
 .guess-input-wrapper {
@@ -216,6 +222,21 @@ h1 {
   to {
     transform: translateY(0%);
   }
+}
+
+.key-row {
+  justify-content: center;
+  display: flex;
+}
+
+.key {
+  border-radius: .25em;
+  justify-content: center;
+  align-items: center;
+  width: 2em;
+  height: 2em;
+  margin: .2em;
+  display: flex;
 }
 
 /*# sourceMappingURL=index.4d663569.css.map */
