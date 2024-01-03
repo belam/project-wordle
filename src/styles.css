@@ -124,20 +124,28 @@ h1 {
   --radius: 0px 0px 0px 4px;
 }
 
-.cell.correct {
+.cell.correct,
+.key.correct {
   background: var(--color-success);
   border-color: var(--color-success);
   color: white;
 }
-.cell.incorrect {
+.cell.incorrect,
+.key.incorrect {
   background: var(--color-gray-300);
   border-color: var(--color-gray-300);
   color: white;
 }
-.cell.misplaced {
+.cell.misplaced,
+.key.misplaced {
   background: var(--color-warning);
   border-color: var(--color-warning);
   color: white;
+}
+.key.unknown {
+  background: var(--color-gray-700);
+  border-color: var(--color-gray-700);
+  color: black;
 }
 
 .guess-input-wrapper {
@@ -229,4 +237,23 @@ h1 {
   to {
     transform: translateY(0%);
   }
+}
+
+/*
+  keyboard
+*/
+.key-row {
+  display: flex;
+  justify-content: center;
+}
+
+
+.key {
+  border-radius: .25em;
+  margin: 0.2em;
+  height: 2em;
+  width: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

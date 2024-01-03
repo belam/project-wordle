@@ -22,7 +22,7 @@ function GameOver({ answer, attempts, winner, handleReset }) {
     <div className={`${winner ? "happy" : "sad"} banner`}>
       {winner ? <Winner attempts={attempts} /> : <Loser answer={answer} />}
       <p>
-        <button onClick={handleReset}>(reset)</button>
+        <button onClick={handleReset}>(Restart Game)</button>
       </p>
     </div>
   );

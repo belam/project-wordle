@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import GuessInput from "../GuessInput";
 import GuessHistory from "../GuessHistory";
-import GameOver from "../GameOver/GameOver";
+import GameOver from "../GameOver";
 
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
@@ -23,6 +23,7 @@ function Game() {
   function submitGuess(guess) {
     const evaluatedGuess = checkGuess(guess, answer);
     const nextHistory = [...history, evaluatedGuess];
+
     setHistory(nextHistory);
 
     if (guess === answer) {
@@ -34,7 +35,6 @@ function Game() {
 
   function handleReset() {
     const nextAnswer = sample(WORDS);
-    // console.log(nextAnswer);
     setAnswer(nextAnswer);
     setHistory([]);
     setGameStatus(status.RUNNING);
@@ -44,7 +44,7 @@ function Game() {
     <>
       <GuessHistory history={history} />
       {gameStatus === status.RUNNING && (
-        <GuessInput submitGuess={submitGuess} />
+        <GuessInput history={history} submitGuess={submitGuess} />
       )}
       {gameStatus !== status.RUNNING && (
         <GameOver
